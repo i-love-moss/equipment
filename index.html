@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>UTL Equipment Lending — Wireframe</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f5f4;
+    --bg-tertiary: #eeece8;
+    --text-primary: #1a1a18;
+    --text-secondary: #6b6b67;
+    --border-light: rgba(0,0,0,0.12);
+    --border-mid: rgba(0,0,0,0.22);
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --green: #3B6D11;
+    --green-dot: #639922;
+    --amber: #854F0B;
+    --amber-dot: #BA7517;
+    --red: #A32D2D;
+    --red-dot: #E24B4A;
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+
+  body {
+    font-family: var(--font);
+    background: #f8f7f4;
+    color: var(--text-primary);
+    padding: 2rem;
+    min-height: 100vh;
+  }
+
+  .page { max-width: 900px; margin: 0 auto; }
+
+  /* Header */
+  .page-header { margin-bottom: 1.75rem; }
+  .page-header h1 { font-size: 26px; font-weight: 600; margin-bottom: 6px; }
+  .page-header p { font-size: 14px; color: var(--text-secondary); line-height: 1.65; max-width: 580px; }
+
+  /* Toolbar */
+  .toolbar { display: flex; gap: 10px; margin-bottom: 1rem; }
+  .toolbar input {
+    flex: 1;
+    height: 36px;
+    padding: 0 12px;
+    border: 0.5px solid var(--border-mid);
+    border-radius: var(--radius-md);
+    background: var(--bg-primary);
+    font-size: 14px;
+    font-family: var(--font);
+    color: var(--text-primary);
+    outline: none;
+  }
+  .toolbar input:focus { border-color: #888; box-shadow: 0 0 0 3px rgba(0,0,0,0.06); }
+  .toolbar input::placeholder { color: var(--text-secondary); }
+  .toolbar select {
+    height: 36px;
+    padding: 0 10px;
+    border: 0.5px solid var(--border-mid);
+    border-radius: var(--radius-md);
+    background: var(--bg-primary);
+    font-size: 13px;
+    font-family: var(--font);
+    color: var(--text-primary);
+    cursor: pointer;
+    outline: none;
+    width: 170px;
+  }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
+  .tab {
+    font-size: 13px;
+    padding: 5px 12px;
+    border-radius: var(--radius-md);
+    border: 0.5px solid var(--border-light);
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    cursor: pointer;
+    white-space: nowrap;
+    font-family: var(--font);
+    transition: background 0.1s, border-color 0.1s;
+  }
+  .tab:hover { background: var(--bg-secondary); color: var(--text-primary); }
+  .tab.active { border-color: var(--border-mid); color: var(--text-primary); font-weight: 500; }
+  .count-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 11px; min-width: 18px; height: 18px; padding: 0 5px;
+    border-radius: 9px; background: var(--bg-secondary);
+    color: var(--text-secondary); margin-left: 5px;
+  }
+
+  /* Results label */
+  .results-label { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; }
+
+  /* Card grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    margin-bottom: 2rem;
+  }
+
+  /* Item cards */
+  .card {
+    background: var(--bg-primary);
+    border: 0.5px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color 0.1s;
+  }
+  .card:hover { border-color: var(--border-mid); }
+  .card-top { display: flex; align-items: flex-start; gap: 10px; }
+  .card-icon {
+    width: 36px; height: 36px; flex-shrink: 0;
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .card-icon i { font-size: 18px; color: var(--text-secondary); }
+  .card-meta { display: flex; flex-direction: column; gap: 4px; }
+  .card-name { font-size: 14px; font-weight: 500; color: var(--text-primary); line-height: 1.35; }
+  .cat-pill {
+    display: inline-block; font-size: 11px; padding: 2px 8px;
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary); color: var(--text-secondary);
+  }
+
+  /* Availability */
+  .avail-list { display: flex; flex-direction: column; gap: 5px; }
+  .avail-row { display: flex; align-items: center; justify-content: space-between; font-size: 12px; }
+  .avail-branch { color: var(--text-secondary); }
+  .avail-status { display: flex; align-items: center; gap: 5px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .dot-green { background: var(--green-dot); }
+  .dot-amber { background: var(--amber-dot); }
+  .dot-red { background: var(--red-dot); }
+  .avail-num { font-size: 12px; }
+  .avail-num.green { color: var(--green); }
+  .avail-num.amber { color: var(--amber); }
+  .avail-num.red { color: var(--red); }
+
+  /* Card footer */
+  .card-footer { margin-top: auto; border-top: 0.5px solid var(--border-light); padding-top: 10px; }
+  .borrow-btn {
+    width: 100%; font-size: 13px; padding: 6px;
+    border: 0.5px solid var(--border-mid);
+    border-radius: var(--radius-md);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    cursor: pointer;
+    font-family: var(--font);
+    transition: background 0.1s;
+  }
+  .borrow-btn:hover { background: var(--bg-secondary); }
+
+  /* Empty state */
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem 0;
+    color: var(--text-secondary);
+    font-size: 14px;
+  }
+
+  /* Policy section */
+  .policy-section {
+    border: 0.5px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--bg-primary);
+  }
+  .policy-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 13px 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .policy-header span { font-size: 14px; font-weight: 500; }
+  .policy-header i { font-size: 16px; color: var(--text-secondary); transition: transform 0.2s; }
+  .policy-header i.open { transform: rotate(180deg); }
+  .policy-body { padding: 0 16px 16px; display: none; border-top: 0.5px solid var(--border-light); }
+  .policy-body.open { display: block; }
+  .policy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .policy-item {
+    font-size: 13px; color: var(--text-secondary);
+    display: flex; gap: 8px; align-items: flex-start; line-height: 1.5;
+  }
+  .policy-item i { font-size: 15px; color: var(--text-secondary); margin-top: 1px; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="page-header">
+    <h1>Equipment lending</h1>
+    <p>Borrow equipment from any UT Libraries branch with your UT EID. Items check out for 3 days and can be renewed once.</p>
+  </div>
+
+  <div class="toolbar">
+    <input type="text" id="search-input" placeholder="Search equipment…" oninput="filterCards()" />
+    <select id="sort-select" onchange="filterCards()">
+      <option value="name">Sort: name</option>
+      <option value="avail">Sort: availability</option>
+      <option value="cat">Sort: category</option>
+    </select>
+  </div>
+
+  <div class="tabs" id="tab-bar">
+    <button class="tab active" data-cat="all" onclick="setTab(this)">All <span class="count-badge" id="count-all"></span></button>
+    <button class="tab" data-cat="Calculators" onclick="setTab(this)">Calculators <span class="count-badge">4</span></button>
+    <button class="tab" data-cat="Chargers" onclick="setTab(this)">Chargers <span class="count-badge">3</span></button>
+    <button class="tab" data-cat="Computer Accessories" onclick="setTab(this)">Computer accessories <span class="count-badge">4</span></button>
+    <button class="tab" data-cat="Cables + Adapters" onclick="setTab(this)">Cables + adapters <span class="count-badge">6</span></button>
+    <button class="tab" data-cat="Microphones" onclick="setTab(this)">Microphones <span class="count-badge">2</span></button>
+  </div>
+
+  <div class="results-label" id="results-label"></div>
+
+  <div class="grid" id="card-grid"></div>
+
+  <div class="policy-section">
+    <div class="policy-header" onclick="togglePolicy()">
+      <span>Borrowing policies</span>
+      <i class="ti ti-chevron-down" id="policy-chevron"></i>
+    </div>
+    <div class="policy-body" id="policy-body">
+      <div class="policy-grid">
+        <div class="policy-item"><i class="ti ti-clock"></i><span>Loan period: 3 days, renewable once</span></div>
+        <div class="policy-item"><i class="ti ti-id"></i><span>Valid UT EID required to borrow</span></div>
+        <div class="policy-item"><i class="ti ti-building-library"></i><span>Return to any UTL branch that carries the item</span></div>
+        <div class="policy-item"><i class="ti ti-alert-triangle"></i><span>Lost or damaged items may incur replacement fees</span></div>
+        <div class="policy-item"><i class="ti ti-rotate-clockwise"></i><span>Renewals available online or at a service desk</span></div>
+        <div class="policy-item"><i class="ti ti-ban"></i><span>Items with holds cannot be renewed</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const items = [
+  { name: "Graphing calculator",        cat: "Calculators",          icon: "ti-math-function",    avail: [["PCL", 3, 5], ["PCB", 1, 2], ["Life Science", 0, 2]] },
+  { name: "Scientific calculator",      cat: "Calculators",          icon: "ti-calculator",       avail: [["PCL", 4, 6], ["PCB", 2, 2]] },
+  { name: "Financial calculator",       cat: "Calculators",          icon: "ti-calculator",       avail: [["PCL", 1, 3], ["PCB", 0, 1]] },
+  { name: "Four-function calculator",   cat: "Calculators",          icon: "ti-calculator",       avail: [["PCL", 5, 5], ["PCB", 2, 2]] },
+  { name: "Apple lightning charger",    cat: "Chargers",             icon: "ti-plug",             avail: [["PCL", 2, 4], ["Life Science", 1, 2]] },
+  { name: "Android charger (USB-C)",    cat: "Chargers",             icon: "ti-plug",             avail: [["PCL", 3, 4], ["PCB", 1, 2]] },
+  { name: "Laptop charger (USB-C)",     cat: "Chargers",             icon: "ti-plug",             avail: [["PCL", 0, 3], ["PCB", 1, 2], ["Life Science", 2, 2]] },
+  { name: "Headphones",                 cat: "Computer Accessories", icon: "ti-headphones",       avail: [["PCL", 4, 6], ["PCB", 1, 3]] },
+  { name: "USB mouse",                  cat: "Computer Accessories", icon: "ti-mouse",            avail: [["PCL", 5, 6], ["PCB", 2, 3]] },
+  { name: "Dell CD/DVD drive",          cat: "Computer Accessories", icon: "ti-disc",             avail: [["PCL", 1, 2], ["PCB", 0, 1]] },
+  { name: "Apple SuperDrive",           cat: "Computer Accessories", icon: "ti-disc",             avail: [["PCL", 0, 2]] },
+  { name: "Laptop charger (USB-C)",     cat: "Computer Accessories", icon: "ti-plug",             avail: [["PCL", 0, 3], ["PCB", 1, 2], ["Life Science", 2, 2]] },
+  { name: "USB-C to HDMI adapter",      cat: "Cables + Adapters",    icon: "ti-plug-connected",   avail: [["PCL", 3, 5], ["PCB", 2, 3]] },
+  { name: "USB-C to USB-A cable",       cat: "Cables + Adapters",    icon: "ti-plug-connected",   avail: [["PCL", 4, 6]] },
+  { name: "HDMI cable",                 cat: "Cables + Adapters",    icon: "ti-plug-connected",   avail: [["PCL", 2, 4], ["PCB", 1, 2]] },
+  { name: "Micro-USB cable",            cat: "Cables + Adapters",    icon: "ti-plug-connected",   avail: [["PCL", 3, 4]] },
+  { name: "Mini-B USB 2.0 cable",       cat: "Cables + Adapters",    icon: "ti-plug-connected",   avail: [["PCL", 1, 2]] },
+  { name: "USB-C to USB adapter",       cat: "Cables + Adapters",    icon: "ti-plug-connected",   avail: [["PCL", 2, 3], ["PCB", 1, 1]] },
+  { name: "Meteorite USB microphone",   cat: "Microphones",          icon: "ti-microphone",       avail: [["PCL", 1, 3], ["PCB", 1, 1]] },
+  { name: "Clip-on Bluetooth microphone", cat: "Microphones",        icon: "ti-microphone",       avail: [["PCL", 2, 4]] }
+];
+
+let activeTab = "all";
+
+function statusClass(avail, total) {
+  if (avail === 0) return "red";
+  if (avail / total <= 0.4) return "amber";
+  return "green";
+}
+
+function renderCard(item) {
+  const availRows = item.avail.map(([branch, a, t]) => {
+    const sc = statusClass(a, t);
+    const label = a === 0 ? "Unavailable" : a + " available";
+    return `<div class="avail-row">
+      <span class="avail-branch">${branch}</span>
+      <div class="avail-status">
+        <div class="dot dot-${sc}"></div>
+        <span class="avail-num ${sc}">${label}</span>
+      </div>
+    </div>`;
+  }).join("");
+
+  return `<div class="card" data-cat="${item.cat}">
+    <div class="card-top">
+      <div class="card-icon"><i class="ti ${item.icon}" aria-hidden="true"></i></div>
+      <div class="card-meta">
+        <div class="card-name">${item.name}</div>
+        <span class="cat-pill">${item.cat}</span>
+      </div>
+    </div>
+    <div class="avail-list">${availRows}</div>
+    <div class="card-footer">
+      <button class="borrow-btn">Check availability in Primo</button>
+    </div>
+  </div>`;
+}
+
+function filterCards() {
+  const q = document.getElementById("search-input").value.toLowerCase();
+  const sort = document.getElementById("sort-select").value;
+
+  let filtered = items.filter(item => {
+    const catMatch = activeTab === "all" || item.cat === activeTab;
+    const qMatch = !q || item.name.toLowerCase().includes(q) || item.cat.toLowerCase().includes(q);
+    return catMatch && qMatch;
+  });
+
+  const seen = new Set();
+  const unique = filtered.filter(item => {
+    const key = item.name + "|" + item.cat;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+
+  if (sort === "name") unique.sort((a, b) => a.name.localeCompare(b.name));
+  else if (sort === "cat") unique.sort((a, b) => a.cat.localeCompare(b.cat));
+  else if (sort === "avail") {
+    unique.sort((a, b) => {
+      const aTotal = a.avail.reduce((s, r) => s + r[1], 0);
+      const bTotal = b.avail.reduce((s, r) => s + r[1], 0);
+      return bTotal - aTotal;
+    });
+  }
+
+  const grid = document.getElementById("card-grid");
+  grid.innerHTML = unique.length
+    ? unique.map(renderCard).join("")
+    : `<div class="empty-state">No items match your search.</div>`;
+
+  document.getElementById("results-label").textContent =
+    `Showing ${unique.length} item${unique.length !== 1 ? "s" : ""}`;
+  document.getElementById("count-all").textContent = activeTab === "all" ? unique.length : document.getElementById("count-all").textContent;
+}
+
+function setTab(el) {
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  el.classList.add("active");
+  activeTab = el.dataset.cat;
+  filterCards();
+}
+
+function togglePolicy() {
+  const body = document.getElementById("policy-body");
+  const chev = document.getElementById("policy-chevron");
+  body.classList.toggle("open");
+  chev.classList.toggle("open");
+}
+
+filterCards();
+</script>
+</body>
+</html>
